@@ -1,9 +1,9 @@
-from RestfulRegistration.api.api import api
+from api.api import api
 from flask_restplus import Resource
 from flask import request, jsonify, make_response
 import firebase_admin
 from firebase_admin import credentials, firestore
-from RestfulRegistration.api.implementation import get_users_list, create_user, get_user, update_user, delete_user
+from api.implementation import get_users_list, create_user, get_user, update_user, delete_user
 
 # namespace sets the endpoints with a prefix of /users
 namespace = api.namespace('users', description='Operations on user resources')

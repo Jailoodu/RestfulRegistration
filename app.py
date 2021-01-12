@@ -1,8 +1,8 @@
 import werkzeug
 werkzeug.cached_property = werkzeug.utils.cached_property
 from flask import Flask, Blueprint
-from RestfulRegistration.api.endpoints.users import namespace as ns
-from RestfulRegistration.api.api import api
+from api.endpoints.users import namespace as ns
+from api.api import api
 
 # initialize a Flash (WSGI) application
 app = Flask(__name__)
@@ -17,7 +17,7 @@ def start_app(app):
 
 def main():
     start_app(app)
-    app.run()
+    app.run(host ='0.0.0.0', port = 5001)
 
 # main function is automatically run
 if __name__ == '__main__':

@@ -2,7 +2,7 @@ import firebase_admin
 from firebase_admin import credentials, firestore
 
 # provide the path to the Google credentials file
-cred = credentials.Certificate("./RestfulRegistration/serviceAccount.json")
+cred = credentials.Certificate("./serviceAccount.json")
 firebase_admin.initialize_app(cred)
 # initialize a client which will be used to perform operations on the database
 firestore_db = firestore.client()
