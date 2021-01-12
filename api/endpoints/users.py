@@ -5,13 +5,14 @@ import firebase_admin
 from firebase_admin import credentials, firestore
 from RestfulRegistration.api.implementation import get_users_list, create_user, get_user, update_user, delete_user
 
+# namespace sets the endpoints with a prefix of /users
 namespace = api.namespace('users', description='Operations on user resources')
 
 @namespace.route('/') 
 class UserCollection(Resource):
     def get(self):
         """
-        Returns a list of users
+        Returns all of the users in the database
         """
         l = get_users_list()
         return make_response(jsonify(l), 200)
@@ -28,7 +29,7 @@ class UserCollection(Resource):
 class User(Resource):
     def get(self, user_id):
         """
-        Return a specified user
+        Return a user with the specified ID
         """
         user_data = get_user(user_id)
         if user_data:
@@ -45,7 +46,7 @@ class User(Resource):
     
     def delete(self, user_id):
         """
-        Delete a specified user
+        Delete a user with the specified ID
         """
         delete_user(user_id)
         return None, 202
