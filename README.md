@@ -62,7 +62,6 @@ To get a local copy up and running follow these simple steps.
 ### Prerequisites
 
 In order to run the project, you will need Docker installed.
-This is an example of how to list things you need to use the software and how to install them.
 * Docker
   ```sh
   Instructions: https://docs.docker.com/get-docker/
