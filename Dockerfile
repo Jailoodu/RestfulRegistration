@@ -12,6 +12,8 @@ RUN pip install flask
 
 RUN pip install werkzeug
 
+RUN pip install pandas
+
 EXPOSE 5001
 
 ENTRYPOINT [ "python" ]

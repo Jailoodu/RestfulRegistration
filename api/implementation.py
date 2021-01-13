@@ -1,5 +1,6 @@
 import firebase_admin
 from firebase_admin import credentials, firestore
+import pandas as pd 
 
 # provide the path to the Google credentials file
 cred = credentials.Certificate("./serviceAccount.json")
@@ -48,3 +49,8 @@ def get_firestore_id(user_id):
     query = users_ref.where(u'id', u'==', user_id)
     docs = query.get()
     return docs[0].id
+
+# normalize input json for csv conversion
+def normalize(data):
+    newData = pd.json_normalize(data)
+    return newData
