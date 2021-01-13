@@ -10,6 +10,7 @@ namespace = api.namespace('users', description='Operations on user resources')
 
 @namespace.route('/') 
 class UserCollection(Resource):
+    @api.doc(responses = {200: 'OK', 500: 'Error fetching data' })
     def get(self):
         """
         Returns all of the users in the database
@@ -17,7 +18,7 @@ class UserCollection(Resource):
         l = get_users_list()
         return make_response(jsonify(l), 200)
     
-    @api.response(201, "User successfully created")
+    @api.doc(responses = {201: 'User successfully created', 400: 'Error occurred' })
     def post(self):
         """
         Create a new user
@@ -27,6 +28,7 @@ class UserCollection(Resource):
 
 @namespace.route('/<string:user_id>')
 class User(Resource):
+    @api.doc(responses = { 200: 'OK', 404: 'Error occurred' })
     def get(self, user_id):
         """
         Return a user with the specified ID
@@ -37,6 +39,7 @@ class User(Resource):
         else:
             return None, 404
     
+    @api.doc(responses = { 204: 'User fields updated', 500: 'Error occurred' })
     def put(self, user_id):
         """
         Update fields for a specified user
@@ -44,6 +47,7 @@ class User(Resource):
         update_user(request.json, user_id)
         return None, 204
     
+    @api.doc(responses = { 202: 'User deleted', 500: 'Error occurred' })
     def delete(self, user_id):
         """
         Delete a user with the specified ID
@@ -53,6 +57,7 @@ class User(Resource):
 
 @namespace.route('/file')
 class File(Resource):
+    @api.doc(responses = { 200: 'OK', 500: 'Error occurred' })
     def get(self):
         """
         Return a csv file with all of the users
