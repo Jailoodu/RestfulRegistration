@@ -14,6 +14,8 @@ RUN pip install werkzeug
 
 RUN pip install pandas
 
+RUN pip install pytest
+
 EXPOSE 5001
 
 ENTRYPOINT [ "python" ]

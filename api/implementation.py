@@ -1,6 +1,7 @@
 import firebase_admin
 from firebase_admin import credentials, firestore
 import pandas as pd 
+from api.firestore_utils import get_collection, add_to_collection, get_object, update_collection, delete_object, fetch_firestore_id
 
 # provide the path to the Google credentials file
 cred = credentials.Certificate("./serviceAccount.json")
@@ -16,9 +17,9 @@ firestore_db = firestore.client()
         List of dictionaries
 """
 def get_users_list():
-    snapshots = list(firestore_db.collection(u'users').get())
+    snapshot_list = get_collection(firestore_db)
     li = []
-    for snapshot in snapshots:
+    for snapshot in snapshot_list:
         li.append(snapshot.to_dict())
     return li
 
@@ -30,7 +31,7 @@ def get_users_list():
         None
 """
 def create_user(data):
-    firestore_db.collection(u'users').add(data)
+    add_to_collection(firestore_db, data)
 
 """
     Returns the user details from the database
@@ -40,10 +41,7 @@ def create_user(data):
         Dictionary
 """
 def get_user(id):
-    users_ref = firestore_db.collection(u'users')
-    # create a custom query which uses the id provided
-    query = users_ref.where(u'id', u'==', id)
-    docs = query.get()
+    docs = get_object(firestore_db, id)
     if len(docs) > 0:
         return docs[0].to_dict()
     else:
@@ -59,8 +57,7 @@ def get_user(id):
 """
 def update_user(data, id):
     doc_id = get_firestore_id(id)
-    user_ref = firestore_db.collection(u'users').document(doc_id)
-    user_ref.update(data)
+    update_collection(firestore_db, doc_id, data)
 
 """
     Deletes a user from the database
@@ -71,8 +68,7 @@ def update_user(data, id):
 """
 def delete_user(id):
     doc_id = get_firestore_id(id)
-    user_ref = firestore_db.collection(u'users').document(doc_id)
-    user_ref.delete()
+    delete_object(firestore_db, doc_id)
 
 """
     Queries database for the document ID
@@ -82,9 +78,7 @@ def delete_user(id):
         String - document ID
 """
 def get_firestore_id(user_id):
-    users_ref = firestore_db.collection(u'users')
-    query = users_ref.where(u'id', u'==', user_id)
-    docs = query.get()
+    docs = fetch_firestore_id(firestore_db, user_id)
     return docs[0].id
 
 """
