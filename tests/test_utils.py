@@ -25,3 +25,9 @@ def setup_env(test_client, created_user):
         "name": created_user["name"], "status": created_user["status"], "id": created_user["id"]
     })
     assert response.status_code == 201
+
+def convert_to_dict(l):
+    output = []
+    for obj in l:
+        output.append(obj.__dict__)
+    return output

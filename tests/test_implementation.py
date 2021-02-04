@@ -1,13 +1,7 @@
 import unittest
 from unittest import mock
 from api.implementation import *
-from tests.test_utils import User_Object
-
-def convert_to_dict(l):
-    output = []
-    for obj in l:
-        output.append(obj.__dict__)
-    return output
+from tests.test_utils import User_Object, convert_to_dict
 
 class Get_List_Test(unittest.TestCase):
     @mock.patch('api.implementation.get_collection')
@@ -63,4 +57,15 @@ class Get_User_ID_Test(unittest.TestCase):
 
         id = get_firestore_id(expected[0].get_id())
         self.assertEqual(id, expected[0].get_id())
+        get_func.assert_called_once()
+
+class Get_Null_User_ID_Test(unittest.TestCase):
+    @mock.patch('api.implementation.fetch_firestore_id')
+    def test_func(self, get_func):
+        expected = None
+        get_func.return_value = expected
+
+        non_existent_id = "1234567890abc"
+        id = get_firestore_id(non_existent_id)
+        self.assertIsNone(id)
         get_func.assert_called_once()

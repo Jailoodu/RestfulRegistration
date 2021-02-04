@@ -16,6 +16,8 @@ def test_get_users():
         response = test_client.get('/api/users/')
         assert response.status_code == 200
         assert response.status == "200 OK"
+        data = response.get_json()
+        assert len(data) > 0
 
 def test_get_user_details():
     """
@@ -108,3 +110,21 @@ def test_retrieve_file():
         header = response.headers
         assert header.get("Content-Disposition") == "attachment; filename=export.csv"
         assert header.get("Content-Type") == "text/csv"
+
+def test_get_payment_details_fail():
+    """
+    GET /users/{user_id}/payment
+    """
+    with flask_app.test_client() as test_client:
+        response = test_client.get('/api/users/85645cbb-58dd-40cd-b74c-8881783a49a8/payment')
+        assert response.status_code == 200
+        assert response.status == "200 OK"
+
+def test_make_payment_fail():
+    """
+    POST /users/{user_id}/payment
+    """
+    with flask_app.test_client() as test_client:
+        response = test_client.post('/api/users/85645cbb-58dd-40cd-b74c-8881783a49a8/payment', json={})
+        assert response.status_code == 201
+        assert response.status == "201 CREATED"

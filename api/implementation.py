@@ -79,7 +79,10 @@ def delete_user(id):
 """
 def get_firestore_id(user_id):
     docs = fetch_firestore_id(firestore_db, user_id)
-    return docs[0].id
+    if docs is None:
+        return None
+    else:
+        return docs[0].id
 
 """
     Data normalization for CSV conversion
