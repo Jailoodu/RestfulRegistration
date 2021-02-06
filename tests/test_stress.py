@@ -1,26 +1,37 @@
-from tests.test_app import flask_app
+import pytest
+from flask import json
 from tests.test_utils import cleanup, setup_env
+from api.implementation import get_firestore_id
+from tests.test_app import flask_app
+from app.app import app
+import sys
 
-def test_create_user():
+def test_stress_get_users():
     """
-    POST /users/
+    GET /users/
     """
-    created_user = {"name": "Jacob Wright", "status": "Confirmed", "id": "1234567890abc"}
     # Create a test client using the Flask application configured for testing
     with flask_app.test_client() as test_client:
-        for _ in range(101):
-            response = test_client.post('/api/users/', json={
-                "name": created_user["name"], "status": created_user["status"], "id": created_user["id"]
-            })
-            assert response.status_code == 201
-            assert response.status == "201 CREATED"
+        for i in range(5):
+            print("Running GET /users/ stress test: iteration #{}".format(i),file=sys.stderr)
+            response = test_client.get('/api/users/')
+            assert response.status_code == 200
+            assert response.status == "200 OK"
+            data = response.get_json()
+            assert len(data) > 0
 
-            endpoint = '/api/users/{}'.format(created_user["id"])
-            response = test_client.get(endpoint)
+def test_stress_retrieve_file():
+    """
+    GET /users/file
+    """
+    # Create a test client using the Flask application configured for testing
+    with flask_app.test_client() as test_client:
+        for i in range(5):
+            print("Running GET /users/file stress test: iteration #{}".format(i),file=sys.stderr)
+            response = test_client.get('/api/users/file')
             assert response.status_code == 200
             assert response.status == "200 OK"
             
-            data = response.get_json()
-            assert data == created_user
-
-            cleanup(test_client, created_user["id"]) 
+            header = response.headers
+            assert header.get("Content-Disposition") == "attachment; filename=export.csv"
+            assert header.get("Content-Type") == "text/csv"

@@ -17,6 +17,7 @@ firestore_db = firestore.client()
         List of dictionaries
 """
 def get_users_list():
+    print("Fetching Users Collection from Firestore")
     snapshot_list = get_collection(firestore_db)
     li = []
     for snapshot in snapshot_list:
@@ -31,6 +32,7 @@ def get_users_list():
         None
 """
 def create_user(data):
+    print("Adding User to Firestore: {}".format(data))
     add_to_collection(firestore_db, data)
 
 """
@@ -41,6 +43,7 @@ def create_user(data):
         Dictionary
 """
 def get_user(id):
+    print("Getting User details from Firestore: {}", id)
     docs = get_object(firestore_db, id)
     if len(docs) > 0:
         return docs[0].to_dict()
@@ -57,6 +60,7 @@ def get_user(id):
 """
 def update_user(data, id):
     doc_id = get_firestore_id(id)
+    print("Updating user {} in Firestore: {}".format(doc_id, data))
     update_collection(firestore_db, doc_id, data)
 
 """
@@ -68,6 +72,7 @@ def update_user(data, id):
 """
 def delete_user(id):
     doc_id = get_firestore_id(id)
+    print("Deleting user {} in Firestore".format(doc_id))
     delete_object(firestore_db, doc_id)
 
 """
@@ -78,6 +83,7 @@ def delete_user(id):
         String - document ID
 """
 def get_firestore_id(user_id):
+    print("Getting Firestore ID corresponding to {}".format(user_id))
     docs = fetch_firestore_id(firestore_db, user_id)
     if docs is None:
         return None
@@ -92,5 +98,6 @@ def get_firestore_id(user_id):
         List
 """
 def normalize(data):
+    print("Normalizing data for CSV file")
     newData = pd.json_normalize(data)
     return newData

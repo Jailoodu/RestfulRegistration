@@ -16,6 +16,8 @@ RUN pip install pandas
 
 RUN pip install pytest
 
+RUN pip install pytest-cov
+
 EXPOSE 5001
 
 ENTRYPOINT [ "python" ]
