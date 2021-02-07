@@ -69,3 +69,41 @@ class Get_Null_User_ID_Test(unittest.TestCase):
         id = get_firestore_id(non_existent_id)
         self.assertIsNone(id)
         get_func.assert_called_once()
+
+class Get_User_Payment_Details_Test(unittest.TestCase):
+    @mock.patch('api.implementation.get_payment_details')
+    def test_func(self, get_func):
+        user = User_Object("Jane", "87HV2NN", "Pending", 24)
+        expected_return = {"status": "Pending", "amount":45.99}
+        get_func.return_value = expected_return
+
+        data = get_payment_details(user.get_id())
+        self.assertEqual(data, expected_return)
+        get_func.assert_called_once()
+
+class Get_Null_User_Payment_Details_Test(unittest.TestCase):
+    @mock.patch('api.implementation.get_payment_details')
+    def test_func(self, get_func):
+        non_existent_id = "78hjg4v2nb44k"
+        expected_return = {}
+        get_func.return_value = expected_return
+
+        data = get_payment_details(non_existent_id)
+        self.assertEqual(data, expected_return)
+        get_func.assert_called_once()
+
+class Make_Payment_Test(unittest.TestCase):
+    @mock.patch('api.implementation.make_payment')
+    def test_func(self, get_func):
+        payload = {"status": "Confirmed", "id":"76rfg43gf3gh9"}
+
+        make_payment(payload)
+        get_func.assert_called_once() 
+
+class Make_Empty_Payment_Test(unittest.TestCase):
+    @mock.patch('api.implementation.make_payment')
+    def test_func(self, get_func):
+        payload = {}
+
+        make_payment(payload)
+        get_func.assert_called_once() 

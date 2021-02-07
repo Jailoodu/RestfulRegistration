@@ -101,3 +101,9 @@ def normalize(data):
     print("Normalizing data for CSV file")
     newData = pd.json_normalize(data)
     return newData
+
+def get_payment_details(id):
+    return 0
+
+def make_payment(data):
+    return 0
