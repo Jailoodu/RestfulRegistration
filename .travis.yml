@@ -21,4 +21,4 @@ install:
 
 script:
   - python --version
-  - pytest --cov=api tests/
+  - pytest --cov=api tests/ --ignore tests/test_stress.py

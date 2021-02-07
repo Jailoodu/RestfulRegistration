@@ -7,13 +7,19 @@ from app.app import app
 import sys
 import random
 
+"""
+IMPORTANT NOTICE: Currently for each stress test, the endpoints are called NUM times. As NUM increases, the endpoint will be called more often for the specific test. 
+Due to daily quota limitations provided by Google Cloud Platform, I have set NUM = 2. If the daily quota is passed, the API will not be able to function appropriately.
+"""
+NUM = 2
+
 def test_stress_get_users():
     """
     GET /users/
     """
     # Use a test client configured for testing
     with flask_app.test_client() as test_client:
-        for i in range(1):
+        for i in range(NUM):
             print("Running GET /users/ stress test: iteration #{}".format(i),file=sys.stderr)
             response = test_client.get('/api/users/')
             assert response.status_code == 200
@@ -32,7 +38,7 @@ def test_stress_get_user_details():
     ]
     # Use a test client configured for testing
     with flask_app.test_client() as test_client:
-        for i in range(1):
+        for i in range(NUM):
             print("Running GET /users/user_id stress test: iteration #{}".format(i),file=sys.stderr)
             user = random.choice(expected_data)
             response = test_client.get('/api/users/{}'.format(user["id"]))
@@ -48,7 +54,7 @@ def test_stress_retrieve_file():
     """
     # Use a test client configured for testing
     with flask_app.test_client() as test_client:
-        for i in range(1):
+        for i in range(NUM):
             print("Running GET /users/file stress test: iteration #{}".format(i),file=sys.stderr)
             response = test_client.get('/api/users/file')
             assert response.status_code == 200
@@ -67,7 +73,7 @@ def test_stress_create_user():
     {"name": "Lillian Angie", "status": "Accepted", "id": "3hjhk213h32"},{"name": "Celest Hainge", "status": "Confirmed", "id": "8hjfd324nj221"}]
     # Use a test client configured for testing
     with flask_app.test_client() as test_client:
-        for i in range(2):
+        for i in range(NUM):
             created_user = random.choice(users)
             response = test_client.post('/api/users/', json={
                 "name": created_user["name"], "status": created_user["status"], "id": created_user["id"]
@@ -92,7 +98,7 @@ def test_stress_delete_user():
     created_user = {"name": "Jacob Wright", "status": "Confirmed", "id": "1234567890abc"}
     # Use a test client configured for testing
     with flask_app.test_client() as test_client:
-        for i in range(1):
+        for i in range(NUM):
             print("Running DELETE /users/user_id stress test: iteration #{}".format(i),file=sys.stderr)
             setup_env(test_client, created_user)
             endpoint = '/api/users/{}'.format(created_user["id"])
@@ -111,7 +117,7 @@ def test_stress_update_user():
     created_user = {"name": "Jacob Wright", "status": "Accepted", "id": "1234567890abc"}
     # Use a test client configured for testing
     with flask_app.test_client() as test_client:
-        for i in range(1):
+        for i in range(NUM):
             print("Running PUT /users/user_id stress test: iteration #{}".format(i),file=sys.stderr)
             setup_env(test_client, created_user)
             endpoint = '/api/users/{}'.format(created_user["id"])
