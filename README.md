@@ -97,6 +97,17 @@ This project is built upon RESTful architecture, therefore it is ideal if one is
 
 2. Head over to http://127.0.0.1:5001/api/, where the Swagger UI is hosted. You will be able to view API definitions and examples of all the available endpoints.
 
+## Testing
+
+[Pytest](https://docs.pytest.org/en/stable/) was utilized to test this repository. The unit tests can be found in `./tests/test_implementation.py`, the acceptance tests in `./tests/test_app.py`, and the stress tests in `./tests/test_stress.py`. 
+
+To run the tests, the serviceAccount.json.enc file needs to be decrypted, please message the developers to request the decryption command. Then run the command `pytest --cov=api tests`.
+A coverage report will be generated within `./docs/coverage.html` once the tests are completed.
+
+Travis CI is being utilized to automate testing, you can find the instance [here](https://travis-ci.org/github/Jailoodu/RestfulRegistration).
+
+A static copy of the coverage report is located at `./docs/coverage.png`.
+
 <!-- ROADMAP -->
 ## Roadmap
 
