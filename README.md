@@ -101,10 +101,11 @@ This project is built upon RESTful architecture, therefore it is ideal if one is
 
 [Pytest](https://docs.pytest.org/en/stable/) was utilized to test this repository. The unit tests can be found in `./tests/test_implementation.py`, the acceptance tests in `./tests/test_app.py`, and the stress tests in `./tests/test_stress.py`. 
 
-To run the tests, the serviceAccount.json.enc file needs to be decrypted, please message the developers to request the decryption command. Then run the command `pytest --cov=api tests`.
-A coverage report will be generated within `./docs/coverage.html` once the tests are completed.
+To run the tests locally, the serviceAccount.json.enc file needs to be decrypted, please message the developers to request the decryption command. Then run the command `pytest --cov=api tests`. A coverage report will be generated within `./docs/coverage.html` once the tests are completed.
 
-Travis CI is being utilized to automate testing, you can find the instance [here](https://travis-ci.org/github/Jailoodu/RestfulRegistration).
+Travis CI is being utilized to automate testing, you can find the instance [here](https://travis-ci.org/github/Jailoodu/RestfulRegistration). 
+
+For the Professor and TAs of 4ZP6: you've been given permission to this GitHub repository, therefore if you log into travis-ci.org, you will see the builds for this project, and be able to start a new one to run the tests. 
 
 A static copy of the coverage report is located at `./docs/coverage.png`.
 
