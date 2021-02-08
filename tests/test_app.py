@@ -10,6 +10,7 @@ start_app(flask_app)
 def test_get_users():
     """
     GET /users/
+    Requirements: F-1
     """
     # Use a test client configured for testing
     with flask_app.test_client() as test_client:
@@ -22,6 +23,7 @@ def test_get_users():
 def test_get_user_details():
     """
     GET /users/{user_id}
+    Requirements: F-1
     """
     expected_data = {"name":"Tammy Stracke","phone":"813-590-8730 x62243", "status":"Pending", "address":{"city":"Jailynberg","country":"United States of America","state":"Tennessee","street":"570 Delmer Key","zipCode":"77974-5063"}, "age":50, "email":"Carli.Waelchi56@hotmail.com", "id":"85645cbb-58dd-40cd-b74c-8881783a49a8"}
     # Use a test client configured for testing
@@ -36,6 +38,7 @@ def test_get_user_details():
 def test_get_user_details_negative():
     """
     GET /users/{user_id}
+    Requirements: F-1
     """
     # Use a test client configured for testing
     with flask_app.test_client() as test_client:
@@ -46,6 +49,7 @@ def test_get_user_details_negative():
 def test_create_user():
     """
     POST /users/
+    Requirements: F-1
     """
     created_user = {"name": "Jacob Wright", "status": "Confirmed", "id": "1234567890abc"}
     # Use a test client configured for testing
@@ -69,6 +73,7 @@ def test_create_user():
 def test_delete_user():
     """
     DELETE /users/{user_id}
+    Requirements: F-1
     """
     created_user = {"name": "Jacob Wright", "status": "Confirmed", "id": "1234567890abc"}
     # Use a test client configured for testing
@@ -86,6 +91,7 @@ def test_delete_user():
 def test_delete_user_negative():
     """
     DELETE /users/{user_id}
+    Requirements: F-1
     """
     created_user = {"name": "Daniel Snod", "status": "Confirmed", "id": "3g42j3743jj"}
     # Use a test client configured for testing
@@ -102,6 +108,7 @@ def test_delete_user_negative():
 def test_update_user():
     """
     PUT /users/{user_id}
+    Requirements: F-21
     """
     created_user = {"name": "Jacob Wright", "status": "Accepted", "id": "1234567890abc"}
     # Use a test client configured for testing
@@ -127,6 +134,7 @@ def test_update_user():
 def test_update_user_negative():
     """
     PUT /users/{user_id}
+    Requirements: F-21
     """
     created_user = {"name": "Haley King", "status": "Confirmed", "id": "76348264ghdas"}
     # Use a test client configured for testing
@@ -145,6 +153,7 @@ def test_update_user_negative():
 def test_retrieve_file():
     """
     GET /users/file
+    Requirements: F-38
     """
     # Use a test client configured for testing
     with flask_app.test_client() as test_client:
@@ -160,6 +169,7 @@ def test_retrieve_file():
 def test_get_payment_details_fail():
     """
     GET /users/{user_id}/payment
+    Requirements: F-36
     """
     with flask_app.test_client() as test_client:
         response = test_client.get('/api/users/85645cbb-58dd-40cd-b74c-8881783a49a8/payment')
@@ -169,6 +179,7 @@ def test_get_payment_details_fail():
 def test_get_payment_details_negative_fail():
     """
     GET /users/{user_id}/payment
+    Requirements: F-36
     """
     with flask_app.test_client() as test_client:
         response = test_client.get('/api/users/894hjd-53da-76gh-bc-87fdsa3/payment')
@@ -178,6 +189,7 @@ def test_get_payment_details_negative_fail():
 def test_make_payment_fail():
     """
     POST /users/{user_id}/payment
+    Requirements: F-36
     """
     with flask_app.test_client() as test_client:
         response = test_client.post('/api/users/85645cbb-58dd-40cd-b74c-8881783a49a8/payment', json={})
@@ -187,6 +199,7 @@ def test_make_payment_fail():
 def test_make_payment_negative_fail():
     """
     POST /users/{user_id}/payment
+    Requirements: F-36
     """
     with flask_app.test_client() as test_client:
         response = test_client.post('/api/users/76fbjs-43ff-9j8f/payment', json={})
