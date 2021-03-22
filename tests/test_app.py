@@ -25,10 +25,24 @@ def test_get_user_details():
     GET /users/{user_id}
     Requirements: F-1
     """
-    expected_data = {"name":"Tammy Stracke","phone":"813-590-8730 x62243", "status":"Pending", "address":{"city":"Jailynberg","country":"United States of America","state":"Tennessee","street":"570 Delmer Key","zipCode":"77974-5063"}, "age":50, "email":"Carli.Waelchi56@hotmail.com", "id":"85645cbb-58dd-40cd-b74c-8881783a49a8"}
+    expected_data = {
+        "address":{
+            "city":"Dwightmouth",
+            "country":"United States of America",
+            "state":"South Carolina",
+            "street":"736 Torphy Trail",
+            "zipCode":"91907-4722"
+        },
+        "age":43,
+        "email":"Ricardo_Parker21@yahoo.com",
+        "id":"f9cc624e-0a2f-40fa-bd36-7c291f9c93d7",
+        "name":"Jeannette Olson III",
+        "phone":"(764) 834-2840 x618",
+        "status":"Confirmed"
+    }
     # Use a test client configured for testing
     with flask_app.test_client() as test_client:
-        response = test_client.get('/api/users/85645cbb-58dd-40cd-b74c-8881783a49a8')
+        response = test_client.get('/api/users/f9cc624e-0a2f-40fa-bd36-7c291f9c93d7')
         assert response.status_code == 200
         assert response.status == "200 OK"
         
