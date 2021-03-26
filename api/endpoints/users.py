@@ -1,5 +1,5 @@
 from api.api import api
-from flask_restplus import Resource
+from flask_restplus import Resource, fields
 from flask import request, jsonify, make_response, Response
 import firebase_admin
 from firebase_admin import credentials, firestore
@@ -7,6 +7,14 @@ from api.implementation import get_users_list, create_user, get_user, update_use
 
 # namespace sets the endpoints with a prefix of /users
 namespace = api.namespace('users', description='Operations on user resources')
+
+# Models
+user_model = namespace.model(
+    "User",
+    {
+        "any": fields.String(description="Any user fields you need"),
+    },
+)
 
 @namespace.route('/') 
 class UserCollection(Resource):
@@ -19,6 +27,7 @@ class UserCollection(Resource):
         return make_response(jsonify(l), 200)
     
     @api.doc(responses = {201: 'User successfully created', 400: 'Error occurred' })
+    @namespace.expect(user_model)
     def post(self):
         """
         Create a new user
@@ -40,6 +49,7 @@ class User(Resource):
             return None, 404
     
     @api.doc(responses = { 204: 'User fields updated', 500: 'Error occurred' })
+    @namespace.expect(user_model)
     def put(self, user_id):
         """
         Update fields for a specified user
