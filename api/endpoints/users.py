@@ -37,7 +37,7 @@ class UserCollection(Resource):
 
 @namespace.route('/<string:user_id>')
 class User(Resource):
-    @api.doc(responses = { 200: 'OK', 404: 'Error occurred' })
+    @api.doc(responses = { 200: 'OK', 404: 'Error occurred: User not found' })
     def get(self, user_id):
         """
         Return a user with the specified ID
