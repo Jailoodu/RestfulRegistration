@@ -24,7 +24,9 @@ class UserCollection(Resource):
         Returns all of the users in the database
         """
         l = get_users_list()
-        return make_response(jsonify(l), 200)
+        resp = make_response(jsonify(l), 200)
+        resp.headers['Access-Control-Allow-Origin'] = '*'
+        return resp
     
     @api.doc(responses = {201: 'User successfully created', 400: 'Error occurred' })
     @namespace.expect(user_model)
@@ -44,7 +46,9 @@ class User(Resource):
         """
         user_data = get_user(user_id)
         if user_data:
-            return make_response(jsonify(user_data), 200)
+            resp = make_response(jsonify(user_data), 200)
+            resp.headers['Access-Control-Allow-Origin'] = '*'
+            return resp
         else:
             return None, 404
     
