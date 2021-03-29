@@ -7,6 +7,11 @@ from api.api import api
 # initialize a Flash (WSGI) application
 app = Flask(__name__)
 
+@app.after_request
+def apply_caching(response):
+    response.headers['Access-Control-Allow-Origin'] = '*'
+    return response
+
 def start_app(app):
     # the endpoint will be hostname:port/api
     bp = Blueprint('api', __name__, url_prefix='/api')
