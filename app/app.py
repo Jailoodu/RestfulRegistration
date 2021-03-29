@@ -7,7 +7,7 @@ from flask_cors import CORS
 
 # initialize a Flash (WSGI) application
 app = Flask(__name__)
-cors = CORS(app)
+cors = CORS(app, resources={r'/*': {'origins': '*'}})
 app.config['CORS_HEADERS'] = 'Content-Type'
 
 bp = Blueprint('api', __name__, url_prefix='/api')
@@ -23,10 +23,11 @@ def main():
     start_app(app)
     app.run(host ='0.0.0.0', port = 5001)
 
-@bp.after_request
+@app.after_request
 def after_request(response):
-    header = response.headers
-    header['Access-Control-Allow-Origin'] = '*'
+    response.headers.add('Access-Control-Allow-Origin', '*')
+    response.headers.add('Access-Control-Allow-Headers', 'Content-Type,Authorization')
+    response.headers.add('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE')
     return response
 
 # main function is automatically run
