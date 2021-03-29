@@ -3,11 +3,11 @@ werkzeug.cached_property = werkzeug.utils.cached_property
 from flask import Flask, Blueprint
 from api.endpoints.users import namespace as ns
 from api.api import api
-from flask_cors import *
+from flask_cors import CORS
 
 # initialize a Flash (WSGI) application
 app = Flask(__name__)
-cors = CORS(app)
+CORS(app)
 
 @app.after_request
 def apply_caching(response):
