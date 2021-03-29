@@ -124,8 +124,8 @@ def make_payment(data):
     payment = apicontractsv1.paymentType()
     payment.creditCard = initialize_credit_card(data)
     
-    createtransactionrequest = create_transaction_request(data, payment, merchantAuth)
-    createtransactioncontroller = createTransactionController(createtransactionrequest)
+    transaction_request = create_transaction_request(data, payment, merchantAuth)
+    createtransactioncontroller = createTransactionController(transaction_request)
     createtransactioncontroller.execute()
     
     resp = createtransactioncontroller.getresponse()
