@@ -22,6 +22,8 @@ RUN pip install authorizenet
 
 RUN pip install requests[security]
 
+RUN pip install -U flask-cors
+
 RUN openssl enc -aes-256-cbc -d -in serviceAccountDocker.json.enc -out serviceAccount.json -k mcmasterpw
 
 EXPOSE 5001
