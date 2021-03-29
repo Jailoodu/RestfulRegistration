@@ -3,7 +3,7 @@ from flask_restplus import Resource, fields
 from flask import request, jsonify, make_response, Response
 import firebase_admin
 from firebase_admin import credentials, firestore
-from api.implementation import get_users_list, create_user, get_user, update_user, delete_user, normalize
+from api.implementation import get_users_list, create_user, get_user, update_user, delete_user, normalize, make_payment, send_email
 
 # namespace sets the endpoints with a prefix of /users
 namespace = api.namespace('users', description='Operations on user resources')
@@ -35,7 +35,9 @@ class UserCollection(Resource):
         Create a new user
         """
         create_user(request.json)
-        return None, 201
+        resp = make_response('', 201)
+        resp.headers['Access-Control-Allow-Origin'] = '*'
+        return resp
 
 @namespace.route('/<string:user_id>')
 class User(Resource):
@@ -59,7 +61,9 @@ class User(Resource):
         Update fields for a specified user
         """
         update_user(request.json, user_id)
-        return None, 204
+        resp = make_response('', 204)
+        resp.headers['Access-Control-Allow-Origin'] = '*'
+        return resp
     
     @api.doc(responses = { 202: 'User deleted', 500: 'Error occurred' })
     def delete(self, user_id):
@@ -82,3 +86,32 @@ class File(Resource):
         resp.headers["Content-Disposition"] = "attachment; filename=export.csv"
         resp.headers["Content-Type"] = "text/csv"
         return resp
+
+# namespace sets the endpoints with a prefix of /payments
+paymentNamespace = api.namespace('payments', description='Operations on payment resources')
+
+# Models
+payment_model = namespace.model(
+    "Payment",
+    {
+        "cardNumber": fields.String(description="Credit card number"),
+        "expirationDate": fields.String(description="Credit card expiration date"),
+        "amount": fields.String(description="Dollar amount"),
+        "email": fields.String(description="Email to send confirmation")
+    },
+)
+
+@paymentNamespace.route('/') 
+class PaymentCollection(Resource):
+    @api.doc(responses = {201: 'Payment successfully completed', 400: 'Error occurred' })
+    @paymentNamespace.expect(payment_model)
+    def post(self):
+        """
+        Pay event organizers
+        """
+        rc = make_payment(request.json)
+        if rc == 0:
+            send_email(request.json) 
+            return None, 201
+        else:
+            return None, 400 

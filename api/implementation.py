@@ -2,6 +2,10 @@ import firebase_admin
 from firebase_admin import credentials, firestore
 import pandas as pd 
 from api.firestore_utils import get_collection, add_to_collection, get_object, update_collection, delete_object, fetch_firestore_id
+from api.payment_utils import initialize_merchant_auth, initialize_credit_card, create_transaction_request, email
+from authorizenet import apicontractsv1
+from authorizenet.apicontrollers import *
+from decimal import *
 
 # provide the path to the Google credentials file
 cred = credentials.Certificate("./serviceAccount.json")
@@ -105,5 +109,43 @@ def normalize(data):
 def get_payment_details(id):
     return 0
 
+"""
+    Code has been adopted from https://developer.authorize.net/hello_world.html
+
+    Charges credit card
+    Args:
+
+    Returns:
+        Integer - 0 or 1 depending on the result of payment
+"""
 def make_payment(data):
-    return 0
+    merchantAuth = initialize_merchant_auth()
+    
+    payment = apicontractsv1.paymentType()
+    payment.creditCard = initialize_credit_card(data)
+    
+    createtransactionrequest = create_transaction_request(data, payment, merchantAuth)
+    createtransactioncontroller = createTransactionController(createtransactionrequest)
+    createtransactioncontroller.execute()
+    
+    resp = createtransactioncontroller.getresponse()
+    
+    if (resp.messages.resultCode=="Ok"):
+        return 0
+    else:
+        return resp.messages.resultCode
+
+"""
+    Sends an email
+    Args:
+        JSON
+    Returns:
+        Integer - 0 or 1
+"""
+def send_email(data):
+    address = data["email"]
+    res = email(address)
+    if res.status_code == 200:
+        return 0
+    else:
+        return 1
