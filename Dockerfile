@@ -28,6 +28,8 @@ RUN pip install python-dotenv
 
 RUN openssl enc -aes-256-cbc -d -in serviceAccountDocker.json.enc -out serviceAccount.json -k mcmasterpw
 
+RUN openssl enc -aes-256-cbc -d -in .env.enc -out .env -k PASS
+
 EXPOSE 5001
 
 CMD ["python", "-u", "app.py"]

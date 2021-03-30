@@ -92,6 +92,7 @@ payment_model = namespace.model(
     {
         "cardNumber": fields.String(description="Credit card number"),
         "expirationDate": fields.String(description="Credit card expiration date"),
+        "cardCode": fields.String(description="Credit card code"),
         "amount": fields.String(description="Dollar amount"),
         "email": fields.String(description="Email to send confirmation")
     },

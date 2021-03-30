@@ -2,7 +2,7 @@ import firebase_admin
 from firebase_admin import credentials, firestore
 import pandas as pd 
 from api.firestore_utils import get_collection, add_to_collection, get_object, update_collection, delete_object, fetch_firestore_id
-from api.payment_utils import initialize_merchant_auth, initialize_credit_card, create_transaction_request, email
+from api.payment_utils import initialize_merchant_auth, initialize_credit_card, create_transaction_request, email, initialize_customer_data
 from authorizenet import apicontractsv1
 from authorizenet.apicontrollers import *
 from decimal import *
@@ -123,8 +123,10 @@ def make_payment(data):
     
     payment = apicontractsv1.paymentType()
     payment.creditCard = initialize_credit_card(data)
+
+    customer_data = initialize_customer_data(data)
     
-    transaction_request = create_transaction_request(data, payment, merchantAuth)
+    transaction_request = create_transaction_request(data, payment, merchantAuth, customer_data)
     createtransactioncontroller = createTransactionController(transaction_request)
     createtransactioncontroller.execute()
     

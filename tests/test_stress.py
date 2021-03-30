@@ -31,11 +31,9 @@ def test_stress_get_user_details():
     """
     GET /users/{user_id}
     """
-    expected_data = [{"name":"Tammy Stracke","phone":"813-590-8730 x62243", "status":"Pending", "address":{"city":"Jailynberg","country":"United States of America","state":"Tennessee","street":"570 Delmer Key","zipCode":"77974-5063"}, "age":50, "email":"Carli.Waelchi56@hotmail.com", "id":"85645cbb-58dd-40cd-b74c-8881783a49a8"},
-    {"address":{"city":"Ottoport","country":"United States of America","state":"Ohio","street":"73671 Lindgren Street","zipCode":"32282"},"age":21,"email":"Kevin_Lind@yahoo.com","id":"cb144b51-0b9e-45b7-bb38-0e4cddee2827","name":"Marsha Price","phone":"399-731-2777 x25031","status":"Confirmed"},
-    {"address":{"city":"West Alexandrine","country":"United States of America","state":"Nevada","street":"50567 Kub Lodge","zipCode":"38255"},"age":28,"email":"Franco81@hotmail.com","id":"7e2561ab-00c9-4b14-abad-f58d337690ec","name":"Ora Steuber","phone":"655-637-2850 x6495","status":"Pending"},
-    {"address":{"city":"Wehnerland","country":"United States of America","state":"Vermont","street":"45594 Violet Forge","zipCode":"70718"},"age":19,"email":"Katlynn39@gmail.com","id":"54a05019-6433-43e6-8efc-a1d05f457973","name":"Tracey Kassulke","phone":"212.606.2391 x2282","status":"Accepted"}
-    ]
+    expected_data = [{"address":{"city":"Ottoport","country":"United States of America","state":"Ohio","street":"73671 Lindgren Street","zipCode":"32282"},"age":21,"email":"Kevin_Lind@yahoo.com","id":"cb144b51-0b9e-45b7-bb38-0e4cddee2827","name":"Marsha Price","phone":"399-731-2777 x25031","status":"Confirmed"},
+    {"address":{"city":"West Alexandrine","country":"United States of America","state":"Nevada","street":"50567 Kub Lodge","zipCode":"38255"},"age":28,"email":"Franco81@hotmail.com","id":"7e2561ab-00c9-4b14-abad-f58d337690ec","name":"Ora Steuber","phone":"655-637-2850 x6495","status":"Confirmed"},
+    {"address":{"city":"Wehnerland","country":"United States of America","state":"Vermont","street":"45594 Violet Forge","zipCode":"70718"},"age":19,"email":"Katlynn39@gmail.com","id":"54a05019-6433-43e6-8efc-a1d05f457973","name":"Tracey Kassulke","phone":"212.606.2391 x2282","status":"Accepted"}]
     # Use a test client configured for testing
     with flask_app.test_client() as test_client:
         for i in range(NUM):

@@ -17,16 +17,18 @@ def initialize_merchant_auth():
 def initialize_credit_card(data):
     cc = apicontractsv1.creditCardType()
     cc.cardNumber = data["cardNumber"]
-    cc.expirationDate =data["expirationDate"]
+    cc.expirationDate = data["expirationDate"]
+    cc.cardCode = data["cardCode"]
     return cc
 
 # Code has been adopted from https://developer.authorize.net/hello_world.html
 # Create a transaction request
-def create_transaction_request(data, payment, merchantAuth):
+def create_transaction_request(data, payment, merchantAuth, customer_data):
     transaction_request = apicontractsv1.transactionRequestType()
     transaction_request.transactionType ="authCaptureTransaction"
     transaction_request.amount = Decimal(data["amount"])
     transaction_request.payment = payment
+    transaction_request.customer = customer_data
     
     create_request = apicontractsv1.createTransactionRequest()
     create_request.merchantAuthentication = merchantAuth
@@ -34,6 +36,12 @@ def create_transaction_request(data, payment, merchantAuth):
     
     create_request.transactionRequest = transaction_request
     return create_request
+
+def initialize_customer_data(data):
+    customer_data = apicontractsv1.customerDataType()
+    customer_data.type = "individual"
+    customer_data.email = data["email"]
+    return customer_data
 
 # Mailgun API used to send emails
 def email(to):

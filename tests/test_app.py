@@ -38,7 +38,7 @@ def test_get_user_details():
         "id":"f9cc624e-0a2f-40fa-bd36-7c291f9c93d7",
         "name":"Jeannette Olson III",
         "phone":"(764) 834-2840 x618",
-        "status":"Confirmed"
+        "status":"Rejected"
     }
     # Use a test client configured for testing
     with flask_app.test_client() as test_client:
