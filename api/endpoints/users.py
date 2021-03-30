@@ -25,7 +25,6 @@ class UserCollection(Resource):
         """
         l = get_users_list()
         resp = make_response(jsonify(l), 200)
-        resp.headers['Access-Control-Allow-Origin'] = '*'
         return resp
     
     @api.doc(responses = {201: 'User successfully created', 400: 'Error occurred' })
@@ -36,7 +35,6 @@ class UserCollection(Resource):
         """
         create_user(request.json)
         resp = make_response('', 201)
-        resp.headers['Access-Control-Allow-Origin'] = '*'
         return resp
 
 @namespace.route('/<string:user_id>')
@@ -49,7 +47,6 @@ class User(Resource):
         user_data = get_user(user_id)
         if user_data:
             resp = make_response(jsonify(user_data), 200)
-            resp.headers['Access-Control-Allow-Origin'] = '*'
             return resp
         else:
             return None, 404
@@ -62,7 +59,6 @@ class User(Resource):
         """
         update_user(request.json, user_id)
         resp = make_response('', 204)
-        resp.headers['Access-Control-Allow-Origin'] = '*'
         return resp
     
     @api.doc(responses = { 202: 'User deleted', 500: 'Error occurred' })
