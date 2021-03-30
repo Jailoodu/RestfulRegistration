@@ -4,6 +4,7 @@ from flask import Flask, Blueprint
 from api.endpoints.users import namespace as ns
 from api.api import api
 from flask_cors import CORS
+from dotenv import load_dotenv
 
 # initialize a Flash (WSGI) application
 app = Flask(__name__)
@@ -20,6 +21,7 @@ def start_app(app):
     app.register_blueprint(bp)
 
 def main():
+    load_dotenv()
     start_app(app)
     app.run(host ='0.0.0.0', port = 5001)
 

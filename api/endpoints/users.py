@@ -107,7 +107,11 @@ class PaymentCollection(Resource):
         """
         rc = make_payment(request.json)
         if rc == 0:
-            send_email(request.json) 
-            return None, 201
+            email_rc = send_email(request.json)
+            if email_rc == 0:
+                return None, 201
+            else:
+                print("Email was not sent")
+                return None, 201 
         else:
             return None, 400 

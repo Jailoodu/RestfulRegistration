@@ -1,6 +1,7 @@
 from authorizenet import apicontractsv1
 from authorizenet.apicontrollers import *
 from decimal import *
+import os
 import requests
 
 # Code has been adopted from https://developer.authorize.net/hello_world.html
@@ -36,10 +37,16 @@ def create_transaction_request(data, payment, merchantAuth):
 
 # Mailgun API used to send emails
 def email(to):
-	return requests.post(
-		"https://api.mailgun.net/v3/sandboxfc3ae9aaf5e94106ab5b5d35da585230.mailgun.org/messages",
-		auth=("api", "key-b31fbee269a2a73d58311bb5667777e7"),
-		data={"from": "Excited User <mailgun@sandboxfc3ae9aaf5e94106ab5b5d35da585230.mailgun.org>",
+    key = os.getenv('KEY')
+    domain = os.getenv('DOMAIN')
+
+    addr = "https://api.mailgun.net/v3/" + domain + "/messages"
+    from_user = "The Company <mailgun@" + domain + ">"
+
+    return requests.post(
+		addr,
+		auth=("api", key),
+		data={"from": from_user,
 			"to": [to],
 			"subject": "Payment Received",
 			"text": "Your payment has been received! Thank you for your support!"})
