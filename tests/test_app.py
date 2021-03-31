@@ -210,9 +210,8 @@ def test_make_payment_fail():
     Requirements: F-36
     """
     with flask_app.test_client() as test_client:
-        response = test_client.post('/api/users/85645cbb-58dd-40cd-b74c-8881783a49a8/payment', json={})
-        assert response.status_code == 201
-        assert response.status == "201 CREATED"
+        response = test_client.post('/api/payments', json={"cardNumber": "370000000000002","expirationDate": "2020-12","cardCode": "6543","amount": "23.99","email": "jason.loodu@gmail.com"})
+        assert response.status_code == 308
 
 def test_make_payment_negative_fail():
     """
