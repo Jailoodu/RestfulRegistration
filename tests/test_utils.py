@@ -22,9 +22,9 @@ def cleanup(test_client, id):
 
 def setup_env(test_client, created_user): 
     response = test_client.post('/api/users/', json={
-        "name": created_user["name"], "status": created_user["status"], "id": created_user["id"]
-    })
+        "name": created_user["name"], "age": created_user["age"]})
     assert response.status_code == 201
+    return response.get_json()
 
 def convert_to_dict(l):
     output = []

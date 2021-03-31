@@ -65,35 +65,37 @@ def test_create_user():
     POST /users/
     Requirements: F-1
     """
-    created_user = {"name": "Jacob Wright", "status": "Confirmed", "id": "1234567890abc"}
+    created_user = {"name": "Jacob Wright", "age": 25}
     # Use a test client configured for testing
     with flask_app.test_client() as test_client:
         response = test_client.post('/api/users/', json={
-            "name": created_user["name"], "status": created_user["status"], "id": created_user["id"]
+            "name": created_user["name"]
         })
         assert response.status_code == 201
         assert response.status == "201 CREATED"
+        resp_body = response.get_json()
 
-        endpoint = '/api/users/{}'.format(created_user["id"])
+        endpoint = '/api/users/{}'.format(resp_body["id"])
         response = test_client.get(endpoint)
         assert response.status_code == 200
         assert response.status == "200 OK"
         
         data = response.get_json()
-        assert data == created_user
+        assert data["name"] == created_user["name"]
+        assert data["status"] == "Pending"
 
-        cleanup(test_client, created_user["id"]) 
+        cleanup(test_client, resp_body["id"]) 
 
 def test_delete_user():
     """
     DELETE /users/{user_id}
     Requirements: F-1
     """
-    created_user = {"name": "Jacob Wright", "status": "Confirmed", "id": "1234567890abc"}
+    created_user = {"name": "John Brown", "age": 23}
     # Use a test client configured for testing
     with flask_app.test_client() as test_client:
-        setup_env(test_client, created_user)
-        endpoint = '/api/users/{}'.format(created_user["id"])
+        uid_body = setup_env(test_client, created_user)
+        endpoint = '/api/users/{}'.format(uid_body["id"])
         response = test_client.delete(endpoint)
         assert response.status_code == 202
         assert response.status == "202 ACCEPTED"
@@ -124,11 +126,11 @@ def test_update_user():
     PUT /users/{user_id}
     Requirements: F-21
     """
-    created_user = {"name": "Jacob Wright", "status": "Accepted", "id": "1234567890abc"}
+    created_user = {"name": "Robert Langdon", "age":55}
     # Use a test client configured for testing
     with flask_app.test_client() as test_client:
-        setup_env(test_client, created_user)
-        endpoint = '/api/users/{}'.format(created_user["id"])
+        uid_body = setup_env(test_client, created_user)
+        endpoint = '/api/users/{}'.format(uid_body["id"])
         response = test_client.put(endpoint, json={
             "status": "Confirmed"
         })
@@ -140,10 +142,12 @@ def test_update_user():
         assert response.status == "200 OK"
         
         data = response.get_json()
-        expected_user = {"name": "Jacob Wright", "status": "Confirmed", "id": "1234567890abc"}
-        assert data == expected_user
+        assert data["name"] == created_user["name"]
+        assert data["age"] == created_user["age"]
+        assert data["status"] == "Confirmed"
+        assert data["id"] == uid_body["id"]
 
-        cleanup(test_client, created_user["id"])
+        cleanup(test_client, uid_body["id"])
 
 def test_update_user_negative():
     """

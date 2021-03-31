@@ -6,6 +6,7 @@ from api.payment_utils import initialize_merchant_auth, initialize_credit_card, 
 from authorizenet import apicontractsv1
 from authorizenet.apicontrollers import *
 from decimal import *
+import uuid
 
 # provide the path to the Google credentials file
 cred = credentials.Certificate("./serviceAccount.json")
@@ -36,8 +37,12 @@ def get_users_list():
         None
 """
 def create_user(data):
+    user_id = uuid.uuid4()
+    data['id'] = str(user_id)
+    data['status'] = 'Pending'
     print("Adding User to Firestore: {}".format(data))
     add_to_collection(firestore_db, data)
+    return {'id':str(user_id)}
 
 """
     Returns the user details from the database

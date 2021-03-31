@@ -33,8 +33,8 @@ class UserCollection(Resource):
         """
         Create a new user
         """
-        create_user(request.json)
-        resp = make_response('', 201)
+        uid = create_user(request.json)
+        resp = make_response(jsonify(uid), 201)
         return resp
 
 @namespace.route('/<string:user_id>')
