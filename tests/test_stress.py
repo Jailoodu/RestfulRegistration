@@ -31,9 +31,7 @@ def test_stress_get_user_details():
     """
     GET /users/{user_id}
     """
-    expected_data = [{"address":{"city":"Ottoport","country":"United States of America","state":"Ohio","street":"73671 Lindgren Street","zipCode":"32282"},"age":21,"email":"Kevin_Lind@yahoo.com","id":"cb144b51-0b9e-45b7-bb38-0e4cddee2827","name":"Marsha Price","phone":"399-731-2777 x25031","status":"Confirmed"},
-    {"address":{"city":"West Alexandrine","country":"United States of America","state":"Nevada","street":"50567 Kub Lodge","zipCode":"38255"},"age":28,"email":"Franco81@hotmail.com","id":"7e2561ab-00c9-4b14-abad-f58d337690ec","name":"Ora Steuber","phone":"655-637-2850 x6495","status":"Confirmed"},
-    {"address":{"city":"Wehnerland","country":"United States of America","state":"Vermont","street":"45594 Violet Forge","zipCode":"70718"},"age":19,"email":"Katlynn39@gmail.com","id":"54a05019-6433-43e6-8efc-a1d05f457973","name":"Tracey Kassulke","phone":"212.606.2391 x2282","status":"Accepted"}]
+    expected_data = [{"id":"fd7207c0-c7a4-47fa-b750-a9abd9d1b9d9", "status":"Accepted"}, {"id":"52366687-c844-4b40-be72-482a65e6ef0b", "status":"Pending"}, {"id":"f3006864-8a5a-41cf-90ab-08b220687a78", "status":"Pending"}, {"id":"7cef8d54-ee81-4220-ad73-ef5c82f6e45e", "status":"Pending"}]
     # Use a test client configured for testing
     with flask_app.test_client() as test_client:
         for i in range(NUM):
@@ -44,7 +42,8 @@ def test_stress_get_user_details():
             assert response.status == "200 OK"
             
             data = response.get_json()
-            assert user == data
+            assert user["id"] == data["id"]
+            assert user["status"] == data["status"]
 
 def test_stress_retrieve_file():
     """
