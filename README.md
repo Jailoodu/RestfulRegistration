@@ -109,6 +109,11 @@ Travis CI is being utilized to automate testing, you can find the instance [here
 
 A static copy of the coverage report is located at `./docs/coverage.png`.
 
+## Documentation
+Source code is documented using OpenAPI and Python API standards. For interactive exploration using a UI,
+please run the API in a development environment (see above instructions) and view the Swagger documentation
+using a browser. For more information about Swagger, please see [https://swagger.io/tools/swagger-ui/](https://swagger.io/tools/swagger-ui/)
+
 <!-- ROADMAP -->
 ## Roadmap
 
